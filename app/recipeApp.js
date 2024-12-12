@@ -52,6 +52,8 @@ function addRecipe(event){
 
     recipes.push(newRecipe);
     showRecipe(newRecipe)
+
+    document.getElementById("recipe-form").reset();
     
 }
 
