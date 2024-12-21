@@ -57,6 +57,34 @@ function addRecipe(event){
     
 }
 
+function addMoreIngredient(event){
+    event.preventDefault();
+
+    const moreIngredientElement = document.getElementById("containerForIngredient");
+
+    const moreIngredientToAdd = document.createElement("div");
+    moreIngredientToAdd.classList.add("ingredient-item");
+    
+
+    const moreIngredientName = document.createElement("input");
+    moreIngredientName.setAttribute("name", "ingredient_name");
+    moreIngredientName.type = "text";
+    moreIngredientName.placeholder = "Ingredient Name";
+    moreIngredientToAdd.appendChild(moreIngredientName);
+
+    const moreIngredientAmount = document.createElement("input");
+    moreIngredientAmount.setAttribute("name", "ingredient_amount");
+    moreIngredientAmount.type = "text";
+    moreIngredientAmount.placeholder = "Amount";
+    moreIngredientToAdd.appendChild(moreIngredientAmount);
+
+    moreIngredientElement.appendChild(moreIngredientToAdd)
+}
+
+
+
+const addIngredientButton = document.getElementById('add-ingredient')
+addIngredientButton.addEventListener('click', addMoreIngredient);
 
 
 const addRecipeButton = document.getElementById('add-recipe')
