@@ -37,6 +37,39 @@ input, textarea {
     box-sizing: border-box;
 }
 
+.search-bar {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.search-bar button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    height: 40px;
+}
+
+.search-bar button:hover {
+    background-color: #2980b9;
+}
+
 .ingredient-item {
     margin-top: 10px;
 }

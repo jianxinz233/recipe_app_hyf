@@ -1,29 +1,50 @@
-let recipeObject = {
-    id: 1,
-    title: "Gløgg",
-    picture_url:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Gl%C3%B6gg_kastrull.JPG/800px-Gl%C3%B6gg_kastrull.JPG",
-    ingredients: [
-      { NAME: "Orange zest", AMOUNT: "0.5" },
-      { NAME: "Water", AMOUNT: "200 ml" },
-      { NAME: "Sugar", AMOUNT: "275 g" },
-      { NAME: "Whole cloves", AMOUNT: "5" },
-      { NAME: "Cinnamon sticks", AMOUNT: "2" },
-      { NAME: "Spice", AMOUNT: undefined },
-      { NAME: "Bottle of red wine", AMOUNT: "1" },
-      { NAME: "Raisins", AMOUNT: "100 g" },
-      { NAME: "Slipped Almonds", AMOUNT: "50 g" },
-    ],
-    description: "Mix everything, heat it, and you are good to go!",
-};
+let recipeObject
+
+let recipes = [
+    {
+        id: 1,
+        title: "Gløgg",
+        picture_url:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Gl%C3%B6gg_kastrull.JPG/800px-Gl%C3%B6gg_kastrull.JPG",
+        ingredients: [
+          { NAME: "Orange zest", AMOUNT: "0.5" },
+          { NAME: "Water", AMOUNT: "200 ml" },
+          { NAME: "Sugar", AMOUNT: "275 g" },
+          { NAME: "Whole cloves", AMOUNT: "5" },
+          { NAME: "Cinnamon sticks", AMOUNT: "2" },
+          { NAME: "Spice", AMOUNT: undefined },
+          { NAME: "Bottle of red wine", AMOUNT: "1" },
+          { NAME: "Raisins", AMOUNT: "100 g" },
+          { NAME: "Slipped Almonds", AMOUNT: "50 g" },
+        ],
+        description: "Mix everything, heat it, and you are good to go!",
+    },
+    {
+        id: 2,
+        title: "Chiffon Cake",
+        picture_url:
+          "https://preppykitchen.com/wp-content/uploads/2021/11/Chiffon-Cake-Recipe-Card.jpg",
+        ingredients: [
+          { NAME: "Flour", AMOUNT: "60 g" },
+          { NAME: "Milk", AMOUNT: "40 g" },
+          { NAME: "Sugar", AMOUNT: "65 g" },
+          { NAME: "Oil", AMOUNT: "30 g" },
+          { NAME: "Eggs", AMOUNT: "4" },
+        ],
+        description: "Bake 50 minutes with 180 degree!",
+    },
+
+]; 
 
 
+function showAllRecipes(){
+    const recipeItemElement = document.getElementById("saved-recipes");
+    recipeItemElement.innerHTML = "";
 
-
-let recipes = []; 
-recipes.push(recipeObject); 
-
-
+    recipes.forEach(recipe => {
+        showRecipe(recipe);
+    });
+}
 
 function addRecipe(event){
     event.preventDefault();
@@ -51,7 +72,7 @@ function addRecipe(event){
     };
 
     recipes.push(newRecipe);
-    showRecipe(newRecipe)
+    showAllRecipes();
 
     document.getElementById("recipe-form").reset();
     
@@ -90,6 +111,24 @@ addIngredientButton.addEventListener('click', addMoreIngredient);
 const addRecipeButton = document.getElementById('add-recipe')
 addRecipeButton.addEventListener('click', addRecipe);
 
+function searchRecipes() {
+    const searchKeyword = document.getElementById('search-input').value.toLowerCase();
+    const filteredRecipes = recipes.filter(recipe =>
+        recipe.title.toLowerCase().includes(searchKeyword) ||
+        recipe.description.toLowerCase().includes(searchKeyword) ||
+        recipe.ingredients.some(ingredient => ingredient.NAME.toLowerCase().includes(searchKeyword)) 
+    );
+
+    const recipeItemElement = document.getElementById("saved-recipes");
+    recipeItemElement.innerHTML = "";
+
+    filteredRecipes.forEach(recipe => {
+        showRecipe(recipe);
+    });
+}
+
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', searchRecipes);
 
 
 
@@ -128,5 +167,5 @@ function showRecipe(recipe){
     recipeItemElement.appendChild(recipeContainer)
 }
 
-showRecipe(recipeObject);
+showAllRecipes();
 
