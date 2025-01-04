@@ -23,7 +23,7 @@ let recipes = [
         id: 2,
         title: "Chiffon Cake",
         picture_url:
-          "https://preppykitchen.com/wp-content/uploads/2021/11/Chiffon-Cake-Recipe-Card.jpg",
+          "./assets/Chiffon-Cake-img.jpg",
         ingredients: [
           { NAME: "Flour", AMOUNT: "60 g" },
           { NAME: "Milk", AMOUNT: "40 g" },
@@ -33,7 +33,20 @@ let recipes = [
         ],
         description: "Bake 50 minutes with 180 degree!",
     },
-
+    {
+        id: 3,
+        title: "Dumpling",
+        picture_url:
+          "./assets/uncooked-dumpling.jpeg",
+        ingredients: [
+          { NAME: "Flour", AMOUNT: "416 g" },
+          { NAME: "Water", AMOUNT: "200 g" },
+          { NAME: "Salt", AMOUNT: "3 g" },
+          { NAME: "Minced Meat", AMOUNT: "500 g" },
+          { NAME: "Corn", AMOUNT: "100 g" },
+        ],
+        description: "Boiled for 10 minutes and enjoy!",
+    },
 ]; 
 
 
@@ -122,9 +135,15 @@ function searchRecipes() {
     const recipeItemElement = document.getElementById("saved-recipes");
     recipeItemElement.innerHTML = "";
 
-    filteredRecipes.forEach(recipe => {
-        showRecipe(recipe);
-    });
+    if(filteredRecipes.length === 0) {
+        const noMatchElement = document.createElement('div');
+        noMatchElement.textContent = "No Match Result Found.";
+        recipeItemElement.appendChild(noMatchElement);
+    }else{
+        filteredRecipes.forEach(recipe => {
+            showRecipe(recipe);
+        });
+    }
 }
 
 const searchInput = document.getElementById('search-input');
