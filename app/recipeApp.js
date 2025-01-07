@@ -150,6 +150,23 @@ const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', searchRecipes);
 
 
+let sortDescending = true;
+
+function sortRecipesByIngredients() {
+    if(sortDescending) {
+        recipes.sort((a, b) => b.ingredients.length - a.ingredients.length);
+        document.getElementById('sort-recipes').textContent = "Sort: Increasing Ingredient";
+    } else {
+        recipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
+        document.getElementById('sort-recipes').textContent = "Sort: Decreasing Ingredients";
+    }
+    sortDescending = !sortDescending;
+    showAllRecipes(); 
+}
+
+const sortRecipesButton = document.getElementById('sort-recipes');
+sortRecipesButton.addEventListener('click', sortRecipesByIngredients);
+
 
 function showRecipe(recipe){
     const recipeItemElement = document.getElementById('saved-recipes');

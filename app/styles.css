@@ -104,6 +104,15 @@ button:hover {
     background-color: #2980b9;
 }
 
+.display-container {
+    flex-direction: column;
+    align-items: center;
+}
+
+.sortbar {
+    text-align: center;
+}
+
 #saved-recipes {
     width: 90%;
     max-width:800px;

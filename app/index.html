@@ -47,10 +47,13 @@
         <textarea type="text" id="description" name="description" row="3" required></textarea>
         <button type="submit" id="add-recipe">Submit</button>
     </form>
-   
+    <div class="display-container">
     <h2>Saved Recipes</h2>
+    <div class="sortbar">
+        <button id="sort-recipes">Sort by Number of Ingredients</button>
+    </div>   
     <div id="saved-recipes"></div>
-    
+    </div>
     <script src="recipeApp.js"></script>
 </body>
 </html>
