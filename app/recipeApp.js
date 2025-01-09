@@ -167,6 +167,69 @@ function sortRecipesByIngredients() {
 const sortRecipesButton = document.getElementById('sort-recipes');
 sortRecipesButton.addEventListener('click', sortRecipesByIngredients);
 
+const setTimerButton = document.getElementById("start-timer");
+setTimerButton.addEventListener('click', setTimer);
+const timerDisplay = document.getElementById("timer-display");
+
+let timerInterval
+
+function setTimer() {
+    const timerInput = parseInt(document.getElementById('timer-input').value);
+    if (timerInput <= 0 || isNaN(timerInput)) {
+        alert("Please enter a valid Timer.");
+        return;
+    }
+    
+    let timeRemaining = timerInput * 60;
+
+    updateDisplay(timeRemaining);
+
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {timeRemaining--;
+
+        if (timeRemaining <=0) {
+            clearInterval(timerInterval);
+            alert("Time's up!");
+            document.getElementById("timer-input").value = "";
+        } else {
+            updateDisplay(timeRemaining);
+        }
+    },1000);
+}
+
+function updateDisplay(timerSeconds) {
+    const minutes = Math.floor(timerSeconds / 60);
+    const remainingSeconds = timerSeconds % 60;
+    timerDisplay.textContent = `${String(minutes).padStart(2,"0")}:${String(remainingSeconds).padStart(2,"0")}`;
+}
+
+const resetTimerButton = document.getElementById("reset-timer");
+resetTimerButton.addEventListener("click", resetTimer);
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerDisplay.textContent = "00:00";
+    document.getElementById("timer-input").value = "";
+}
+
+const timeSpentDisplay = document.getElementById("time-spent");
+let totalSecondsSpent = 0;
+
+function updateTimer() {
+    totalSecondsSpent++;
+    timeSpentDisplay.textContent = formatTime(totalSecondsSpent);
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes} minutes ${remainingSeconds} seconds`;
+}
+
+window.onload = function () {
+    setInterval(updateTimer, 1000);
+};
 
 function showRecipe(recipe){
     const recipeItemElement = document.getElementById('saved-recipes');

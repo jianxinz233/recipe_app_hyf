@@ -9,10 +9,6 @@
 <body>
     <h1>Cooking Note</h1>
     <p>Your favourite recipes manager</p>
-    <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Search for a recipe...">
-        <button id="search-button">Search</button>
-    </div>
     <h2>Add your new recipe</h2>
     <form id="recipe-form">
         <label for="title">Recipe Title:</label>
@@ -47,12 +43,32 @@
         <textarea type="text" id="description" name="description" row="3" required></textarea>
         <button type="submit" id="add-recipe">Submit</button>
     </form>
+    
     <div class="display-container">
     <h2>Saved Recipes</h2>
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search for a recipe...">
+        <button id="search-button">Search</button>
+    </div>
     <div class="sortbar">
         <button id="sort-recipes">Sort by Number of Ingredients</button>
     </div>   
     <div id="saved-recipes"></div>
+    </div>
+
+    <div id="cooking-timer" class="timer-container">
+        <label for="timer-input">Set Timer (in minutes):</label>
+        <div class="timer-input-container">
+            <input type="number" id="timer-input" min="1" placeholder="Enter minutes">
+            <button id="start-timer">Start Timer</button>
+            <button id="reset-timer">Reset Timer</button>
+        </div>
+        <p id="timer-display">00:00</p>
+    </div>
+
+    <div class="time-spent-container">
+        <p>You have been on this page for:</p>
+        <p><span id="time-spent">0 seconds</span></p>
     </div>
     <script src="recipeApp.js"></script>
 </body>
