@@ -11,6 +11,27 @@ h1, h2, p{
     color: #2c3e50;
 }
 
+.header-line {
+    width: 95%;
+    height: 2px;
+    background-color: #2980b9;
+    border-color: #3498db;
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 20px;
+}
+
+.add-form-container {
+    flex: 1;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+
 form {
     width: 90%;
     max-width: 600px;
@@ -105,6 +126,7 @@ button:hover {
 }
 
 .display-container {
+    flex: 3;
     flex-direction: column;
     align-items: center;
     margin: 20px auto;
@@ -120,7 +142,7 @@ button:hover {
 
 #saved-recipes {
     width: 90%;
-    max-width:800px;
+    max-width: 900px;
     margin: 10px auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -220,18 +242,33 @@ button:hover {
 
 
 @media (max-width: 600px) {
+    .main-container {
+        width: 90%;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+    }
+    
+    .header-line {
+        width: 90%;
+    }
+
+    .add-form-container {
+        width:100%;
+        margin: 0;
+    }
+
     form {
-        width: 85%;
         padding: 10px;
     }
 
     .display-container {
-        width: 85%;
-        padding: 10px;
+        width:100%;
+        margin: 0;
     }
 
     .search-bar {
-        width: 100%;
+        padding: 10px;
         flex-direction: column;
         align-items: center;
         gap: 10px;
