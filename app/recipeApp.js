@@ -1,54 +1,16 @@
 let recipeObject
 
-let recipes = [
-    {
-        id: 1,
-        title: "Gløgg",
-        picture_url:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Gl%C3%B6gg_kastrull.JPG/800px-Gl%C3%B6gg_kastrull.JPG",
-        ingredients: [
-          { NAME: "Orange zest", AMOUNT: "0.5" },
-          { NAME: "Water", AMOUNT: "200 ml" },
-          { NAME: "Sugar", AMOUNT: "275 g" },
-          { NAME: "Whole cloves", AMOUNT: "5" },
-          { NAME: "Cinnamon sticks", AMOUNT: "2" },
-          { NAME: "Spice", AMOUNT: undefined },
-          { NAME: "Bottle of red wine", AMOUNT: "1" },
-          { NAME: "Raisins", AMOUNT: "100 g" },
-          { NAME: "Slipped Almonds", AMOUNT: "50 g" },
-        ],
-        description: "Mix everything, heat it, and you are good to go!",
-    },
-    {
-        id: 2,
-        title: "Chiffon Cake",
-        picture_url:
-          "./assets/Chiffon-Cake-img.jpg",
-        ingredients: [
-          { NAME: "Flour", AMOUNT: "60 g" },
-          { NAME: "Milk", AMOUNT: "40 g" },
-          { NAME: "Sugar", AMOUNT: "65 g" },
-          { NAME: "Oil", AMOUNT: "30 g" },
-          { NAME: "Eggs", AMOUNT: "4" },
-        ],
-        description: "Bake 50 minutes with 180 degree!",
-    },
-    {
-        id: 3,
-        title: "Dumpling",
-        picture_url:
-          "./assets/uncooked-dumpling.jpeg",
-        ingredients: [
-          { NAME: "Flour", AMOUNT: "416 g" },
-          { NAME: "Water", AMOUNT: "200 g" },
-          { NAME: "Salt", AMOUNT: "3 g" },
-          { NAME: "Minced Meat", AMOUNT: "500 g" },
-          { NAME: "Corn", AMOUNT: "100 g" },
-        ],
-        description: "Boiled for 10 minutes and enjoy!",
-    },
-]; 
+let recipes = []; 
 
+async function getData() {
+    const response = await fetch(
+        "https://raw.githubusercontent.com/jianxinz233/jianxinz233.github.io/refs/heads/main/data/recipe_app_data.json"
+    );
+    recipes  = await response.json();
+    showAllRecipes();
+}
+
+getData();
 
 function showAllRecipes(){
     const recipeItemElement = document.getElementById("saved-recipes");
@@ -59,22 +21,48 @@ function showAllRecipes(){
     });
 }
 
+resetForm();
+
 function addRecipe(event){
     event.preventDefault();
 
-    const title = document.getElementById('title').value;
-    const picture_url = document.getElementById('image-link').value;
-    
+    const title = document.getElementById('title').value.trim();
+    if (title === "") {
+        alert("Please enter a title!")
+        return;
+    }
+
+    const picture_url = document.getElementById('image-link').value.trim();
+    if (picture_url === "") {
+        alert("Please enter a pictural URL!")
+        return;
+    }
+
     const ingredients = [];
     const ingredientNames = document.querySelectorAll("input[name='ingredient_name']");
     const ingredientAmounts = document.querySelectorAll("input[name='ingredient_amount']");
     for(let i = 0; i < ingredientNames.length; i++) {
         const name = ingredientNames[i].value;
         const amount = ingredientAmounts[i].value;
-        ingredients.push({NAME: name, AMOUNT: amount});
-    }
 
-    const description = document.getElementById('description').value;
+        if (name === "" || amount === "") {
+            alert("Please enter ingredients and amount!")
+            return;
+        };
+    
+        if (isNaN(amount) || Number(amount) <= 0) {
+            alert("Please enter a valid number for ingredient amounts.");
+            return;
+        };
+
+        ingredients.push({name: name, amount: amount});
+    };
+
+    const description = document.getElementById('description').value.trim();
+    if (description === "") {
+        alert("Please enter a description!")
+        return;
+    }
 
     const newRecipe = {
         id: recipes.length + 1,
@@ -87,8 +75,36 @@ function addRecipe(event){
     recipes.push(newRecipe);
     showAllRecipes();
 
-    document.getElementById("recipe-form").reset();
+    resetForm()
     
+};
+
+function resetForm() {
+    document.getElementById("recipe-form").reset();
+
+    const ingredientContainer = document.getElementById("containerForIngredient");
+    ingredientContainer.innerHTML = ''; 
+
+    for (let i =0; i < 5; i++) {
+        const ingredientRow = document.createElement("div");
+        ingredientRow.classList.add("ingredient-item");
+
+        const ingredientNameInput = document.createElement("input");
+        ingredientNameInput.type = "text";
+        ingredientNameInput.name = "ingredient_name";
+        ingredientNameInput.placeholder = "Ingredient Name";
+        ingredientNameInput.required = true;
+
+        const ingredientAmountInput = document.createElement("input");
+        ingredientAmountInput.type = "number";
+        ingredientAmountInput.name = "ingredient_amount";
+        ingredientAmountInput.placeholder = "Amount";
+        ingredientAmountInput.required = true;
+
+        ingredientRow.appendChild(ingredientNameInput);
+        ingredientRow.appendChild(ingredientAmountInput);
+        ingredientContainer.appendChild(ingredientRow);
+    }
 }
 
 function addMoreIngredient(event){
@@ -108,7 +124,7 @@ function addMoreIngredient(event){
 
     const moreIngredientAmount = document.createElement("input");
     moreIngredientAmount.setAttribute("name", "ingredient_amount");
-    moreIngredientAmount.type = "text";
+    moreIngredientAmount.type = "number";
     moreIngredientAmount.placeholder = "Amount";
     moreIngredientToAdd.appendChild(moreIngredientAmount);
 
@@ -129,19 +145,56 @@ function searchRecipes() {
     const filteredRecipes = recipes.filter(recipe =>
         recipe.title.toLowerCase().includes(searchKeyword) ||
         recipe.description.toLowerCase().includes(searchKeyword) ||
-        recipe.ingredients.some(ingredient => ingredient.NAME.toLowerCase().includes(searchKeyword)) 
+        recipe.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(searchKeyword))
     );
-
+    
     const recipeItemElement = document.getElementById("saved-recipes");
     recipeItemElement.innerHTML = "";
 
-    if(filteredRecipes.length === 0) {
+    if (searchKeyword === "") {
+        recipes.forEach(recipe => {
+            showRecipe(recipe)
+        });
+        return;
+    }
+
+    if (filteredRecipes.length === 0) {
         const noMatchElement = document.createElement('div');
         noMatchElement.textContent = "No Match Result Found.";
         recipeItemElement.appendChild(noMatchElement);
-    }else{
+    } else {
         filteredRecipes.forEach(recipe => {
-            showRecipe(recipe);
+            const recipeContainer = document.createElement("div");
+            recipeContainer.classList.add("recipe-item");
+    
+            const recipeTitle = document.createElement("h3");
+            recipeTitle.textContent = recipe.title;
+            recipeContainer.appendChild(recipeTitle);
+    
+            const recipeImage = document.createElement("img");
+            recipeImage.src = recipe.picture_url;
+            recipeImage.alt = `${recipe.title}-img`;
+            recipeContainer.appendChild(recipeImage);
+    
+            const matchingIngredients = recipe.ingredients.filter(ingredient =>
+                ingredient.name.toLowerCase().includes(searchKeyword)
+            );
+    
+            if (matchingIngredients.length > 0) {
+                const matchingIngredientsHeader = document.createElement("h4");
+                matchingIngredientsHeader.textContent = "Matching Ingredients:";
+                recipeContainer.appendChild(matchingIngredientsHeader);
+    
+                const matchingIngredientsList = document.createElement("ul");
+                matchingIngredients.forEach(ingredient => {
+                    const ingredientItem = document.createElement("li");
+                    ingredientItem.textContent = `${ingredient.name}: ${ingredient.amount} - ${ingredient.price} kr.`;
+                    matchingIngredientsList.appendChild(ingredientItem);
+                });
+                recipeContainer.appendChild(matchingIngredientsList);
+            }
+    
+            recipeItemElement.appendChild(recipeContainer);
         });
     }
 }
@@ -253,7 +306,7 @@ function showRecipe(recipe){
     const recipeIngredientsList = document.createElement("ul");
     for(let ingredient of recipe.ingredients) {
         const ingredientItem = document.createElement("li");
-        ingredientItem.textContent = `${ingredient.NAME} ${ingredient.AMOUNT}`;
+        ingredientItem.textContent = `${ingredient.name} ${ingredient.amount}`;
         recipeIngredientsList.appendChild(ingredientItem);
     }
     recipeContainer.appendChild(recipeIngredientsList);

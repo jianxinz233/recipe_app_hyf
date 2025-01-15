@@ -22,7 +22,7 @@ h1, h2, p{
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    margin: 20px;
+    margin: 20px 50px;
 }
 
 .add-form-container {
@@ -34,7 +34,7 @@ h1, h2, p{
 
 form {
     width: 90%;
-    max-width: 600px;
+    min-width: 250px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -73,22 +73,6 @@ input, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 40px;
-}
-
-.search-bar button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 15px;
-    margin-top: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    height: 40px;
-}
-
-.search-bar button:hover {
-    background-color: #2980b9;
 }
 
 .ingredient-item {
@@ -142,7 +126,6 @@ button:hover {
 
 #saved-recipes {
     width: 90%;
-    max-width: 900px;
     margin: 10px auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

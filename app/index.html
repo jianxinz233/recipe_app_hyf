@@ -19,39 +19,17 @@
                 <label for="image">Image link of recipe:</label>
                 <input type="text" id="image-link" name="image-link" placeholder="https://..." required></input>
                 <label for="ingredient">Ingredients:</label>
-                <div class="ingredient-container" id="containerForIngredient">
-                    <div class="ingredient-item">
-                        <input type="text" id="ingredient_name" name="ingredient_name" placeholder="Ingredient Name" required>
-                        <input type="text" id="ingredient_amount" name="ingredient_amount" placeholder="Amount" required>
-                    </div> 
-                    <div class="ingredient-item">
-                        <input type="text" id="ingredient_name" name="ingredient_name" placeholder="Ingredient Name" required>
-                        <input type="text" id="ingredient_amount" name="ingredient_amount" placeholder="Amount" required>
-                    </div>
-                    <div class="ingredient-item">
-                        <input type="text" id="ingredient_name" name="ingredient_name" placeholder="Ingredient Name" required>
-                        <input type="text" id="ingredient_amount" name="ingredient_amount"  placeholder="Amount" required>
-                    </div>
-                    <div class="ingredient-item">
-                        <input type="text" id="ingredient_name" name="ingredient_name" placeholder="Ingredient Name" required>
-                        <input type="text" id="ingredient_amount" name="ingredient_amount" placeholder="Amount" required>
-                    </div>
-                    <div class="ingredient-item">
-                        <input type="text" id="ingredient_name" name="ingredient_name" placeholder="Ingredient Name" required>
-                        <input type="text" id="ingredient_amount" name="ingredient_amount" placeholder="Amount" required>
-                    </div>
-                </div>
+                <div class="ingredient-container" id="containerForIngredient"></div>
                 <button type="button" id="add-ingredient">Add more ingredients</button>
                 <label for="description">Description:</label>
-                <textarea type="text" id="description" name="description" row="3" required></textarea>
+                <textarea type="text" id="description" name="description" rows="4" required></textarea>
                 <button type="submit" id="add-recipe">Submit</button>
             </form>
         </div>
         <div class="display-container">
             <h2>Saved Recipes</h2>
             <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Search for a recipe...">
-                <button id="search-button">Search</button>
+                <input type="text" id="search-input" placeholder="Search for a recipe or ingredients...">
             </div>
             <div class="sortbar">
                 <button id="sort-recipes">Sort by Number of Ingredients</button>
