@@ -192,6 +192,22 @@ function searchRecipes() {
                     matchingIngredientsList.appendChild(ingredientItem);
                 });
                 recipeContainer.appendChild(matchingIngredientsList);
+            } else {
+                const allIngredientsHeader = document.createElement("h4")
+                allIngredientsHeader.textContent = "All Ingredients:";
+                recipeContainer.appendChild(allIngredientsHeader);
+
+                const recipeIngredientsList = document.createElement("ul");
+                    recipe.ingredients.forEach (ingredient => {
+                        const allIngredients = document.createElement("li");
+                        allIngredients.textContent = `${ingredient.name}: ${ingredient.amount} - ${ingredient.price} kr.`;
+                        recipeIngredientsList.appendChild(allIngredients);
+                    });
+                recipeContainer.appendChild(recipeIngredientsList);
+
+                const recipeDescription = document.createElement("p");
+                recipeDescription.textContent = recipe.description;
+                recipeContainer.appendChild(recipeDescription);
             }
     
             recipeItemElement.appendChild(recipeContainer);
