@@ -5,6 +5,9 @@ async function getData() {
         const response = await fetch(
             "https://raw.githubusercontent.com/jianxinz233/jianxinz233.github.io/refs/heads/main/data/recipe_app_data.json"
         ); 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const recipeData  = await response.json();
         recipes = recipeData;
         return recipes;
@@ -13,7 +16,7 @@ async function getData() {
     }
 };
 
-async function showAllRecipes(){
+function showAllRecipes(){
     const recipeItemElement = document.getElementById("saved-recipes");
     recipeItemElement.innerHTML = "";
 
@@ -22,7 +25,7 @@ async function showAllRecipes(){
     });
 };
 
-async function showRandomRecipe() {
+function showRandomRecipe() {
     if (recipes.length === 0) {
         console.error('No recipes available');
         return; 
