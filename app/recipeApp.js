@@ -1,25 +1,54 @@
-let recipeObject
-
-let recipes = []; 
+let recipes =[];
 
 async function getData() {
-    const response = await fetch(
-        "https://raw.githubusercontent.com/jianxinz233/jianxinz233.github.io/refs/heads/main/data/recipe_app_data.json"
-    );
-    recipes  = await response.json();
-    showAllRecipes();
-}
+    try{
+        const response = await fetch(
+            "https://raw.githubusercontent.com/jianxinz233/jianxinz233.github.io/refs/heads/main/data/recipe_app_data.json"
+        ); 
+        const recipeData  = await response.json();
+        recipes = recipeData;
+        return recipes;
+    } catch (error) {
+        console.error(`We encountered an error: ${error}`);
+    }
+};
 
-getData();
-
-function showAllRecipes(){
+async function showAllRecipes(){
     const recipeItemElement = document.getElementById("saved-recipes");
     recipeItemElement.innerHTML = "";
 
     recipes.forEach(recipe => {
         showRecipe(recipe);
     });
+};
+
+async function showRandomRecipe() {
+    if (recipes.length === 0) {
+        console.error('No recipes available');
+        return; 
+    }
+    
+    const randomIndex = Math.floor(Math.random() * recipes.length);
+    const randomRecipe = recipes[randomIndex];
+
+    const recommendationBox = document.getElementById("recommendation-content");
+    if (!recommendationBox) {
+        console.error('Recommendation content not found');
+        return;
+    }
+
+    document.getElementById("recommendation-title").textContent = randomRecipe.title;
+    document.getElementById("recommendation-image").src = randomRecipe.picture_url;
 }
+
+getData()
+    .then(() => {
+        showAllRecipes(); 
+        showRandomRecipe();
+    })
+    .catch(error => {
+        console.error('Error loading recipes:', error);
+    });
 
 resetForm();
 
@@ -41,9 +70,11 @@ function addRecipe(event){
     const ingredients = [];
     const ingredientNames = document.querySelectorAll("input[name='ingredient_name']");
     const ingredientAmounts = document.querySelectorAll("input[name='ingredient_amount']");
+    const ingredientUnits = document.querySelectorAll("input[name='ingredient_unit']");
     for(let i = 0; i < ingredientNames.length; i++) {
-        const name = ingredientNames[i].value;
-        const amount = ingredientAmounts[i].value;
+        const name = ingredientNames[i].value.trim();
+        const amount = ingredientAmounts[i].value.trim();
+        const unit = ingredientUnits[i].value.trim();
 
         if (name === "" || amount === "") {
             alert("Please enter ingredients and amount!")
@@ -55,7 +86,7 @@ function addRecipe(event){
             return;
         };
 
-        ingredients.push({name: name, amount: amount});
+        ingredients.push({name: name, amount: amount, unit: unit});
     };
 
     const description = document.getElementById('description').value.trim();
@@ -101,8 +132,14 @@ function resetForm() {
         ingredientAmountInput.placeholder = "Amount";
         ingredientAmountInput.required = true;
 
+        const ingredientUnitInput = document.createElement("input");
+        ingredientUnitInput.type = "text";
+        ingredientUnitInput.name = "ingredient_unit";
+        ingredientUnitInput.placeholder = "Unit";
+
         ingredientRow.appendChild(ingredientNameInput);
         ingredientRow.appendChild(ingredientAmountInput);
+        ingredientRow.appendChild(ingredientUnitInput);
         ingredientContainer.appendChild(ingredientRow);
     }
 }
@@ -127,6 +164,12 @@ function addMoreIngredient(event){
     moreIngredientAmount.type = "number";
     moreIngredientAmount.placeholder = "Amount";
     moreIngredientToAdd.appendChild(moreIngredientAmount);
+
+    const moreIngredientUnit = document.createElement("input");
+    moreIngredientUnit.setAttribute("name", "ingredient_unit");
+    moreIngredientUnit.type = "text";
+    moreIngredientUnit.placeholder = "Unit";
+    moreIngredientToAdd.appendChild(moreIngredientUnit);
 
     moreIngredientElement.appendChild(moreIngredientToAdd)
 }
@@ -188,7 +231,7 @@ function searchRecipes() {
                 const matchingIngredientsList = document.createElement("ul");
                 matchingIngredients.forEach(ingredient => {
                     const ingredientItem = document.createElement("li");
-                    ingredientItem.textContent = `${ingredient.name}: ${ingredient.amount} - ${ingredient.price} kr.`;
+                    ingredientItem.textContent = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit} - ${ingredient.price} kr.`;
                     matchingIngredientsList.appendChild(ingredientItem);
                 });
                 recipeContainer.appendChild(matchingIngredientsList);
@@ -200,7 +243,7 @@ function searchRecipes() {
                 const recipeIngredientsList = document.createElement("ul");
                     recipe.ingredients.forEach (ingredient => {
                         const allIngredients = document.createElement("li");
-                        allIngredients.textContent = `${ingredient.name}: ${ingredient.amount} - ${ingredient.price} kr.`;
+                        allIngredients.textContent = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit} - ${ingredient.price} kr.`;
                         recipeIngredientsList.appendChild(allIngredients);
                     });
                 recipeContainer.appendChild(recipeIngredientsList);
@@ -283,11 +326,13 @@ function resetTimer() {
 }
 
 const timeSpentDisplay = document.getElementById("time-spent");
-let totalSecondsSpent = 0;
+let startTime;
 
 function updateTimer() {
-    totalSecondsSpent++;
-    timeSpentDisplay.textContent = formatTime(totalSecondsSpent);
+    const currentTime = new Date();
+    const elapsedTime = currentTime - startTime;
+    const elapsedSeconds = Math.floor(elapsedTime / 1000);
+    timeSpentDisplay.textContent = formatTime(elapsedSeconds);
 }
 
 function formatTime(seconds) {
@@ -297,8 +342,10 @@ function formatTime(seconds) {
 }
 
 window.onload = function () {
+    startTime = new Date();
     setInterval(updateTimer, 1000);
 };
+
 
 function showRecipe(recipe){
     const recipeItemElement = document.getElementById('saved-recipes');
@@ -322,7 +369,7 @@ function showRecipe(recipe){
     const recipeIngredientsList = document.createElement("ul");
     for(let ingredient of recipe.ingredients) {
         const ingredientItem = document.createElement("li");
-        ingredientItem.textContent = `${ingredient.name} ${ingredient.amount}`;
+        ingredientItem.textContent = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
         recipeIngredientsList.appendChild(ingredientItem);
     }
     recipeContainer.appendChild(recipeIngredientsList);
@@ -336,4 +383,5 @@ function showRecipe(recipe){
 }
 
 showAllRecipes();
+
 

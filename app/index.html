@@ -7,11 +7,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Cooking Note</h1>
-    <p>Your favourite recipes manager</p>
+    <div class="main-bar">
+        <h1>Cooking Note</h1>
+    </div>  
     <hr class="header-line">
     <div class="main-container">
         <div class="add-form-container">
+            <div class="recommendation-container" id="todays-recommendation">
+                <h3>Today's Recommendation</h3>
+                <div id="recommendation-content">
+                <h4 id="recommendation-title"></h4>
+                <img id="recommendation-image" src="" alt="Recipe Image">
+                </div>
+            </div>
             <h2>Add your new recipe</h2>
             <form id="recipe-form">
                 <label for="title">Recipe Title:</label>
@@ -27,7 +35,7 @@
             </form>
         </div>
         <div class="display-container">
-            <h2>Saved Recipes</h2>
+            <h2>The Recipe Library</h2>
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="Search for a recipe or ingredients...">
             </div>
