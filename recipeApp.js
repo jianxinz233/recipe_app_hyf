@@ -250,10 +250,52 @@ function searchRecipes() {
                         recipeIngredientsList.appendChild(allIngredients);
                     });
                 recipeContainer.appendChild(recipeIngredientsList);
-
-                const recipeDescription = document.createElement("p");
-                recipeDescription.textContent = recipe.description;
+                
+                const recipeDescription = document.createElement("ol");
+                const descriptionList = recipe.description.split(".");
+                for(let descriptionLine of descriptionList) {
+                    const descriptionStringLine = document.createElement("li");
+                    descriptionStringLine.textContent = descriptionLine.trim();
+                    recipeDescription.appendChild(descriptionStringLine)
+                }
                 recipeContainer.appendChild(recipeDescription);
+
+                const convertContainer = document.createElement("div");
+                convertContainer.classList.add("convert-container");
+
+                const convertLabel = document.createElement("label");
+                convertLabel.textContent = "Convert portion by: ";
+                convertLabel.setAttribute("for", `convert-${recipe.title}`);
+                convertContainer.appendChild(convertLabel);
+
+                const convertInputContainer = document.createElement("div");
+                convertInputContainer.classList.add("convert-input-container");
+
+                const portionInput = document.createElement("input");
+                portionInput.type = "number";
+                portionInput.id = `convert-${recipe.title}`;
+                portionInput.value = 1;
+                portionInput.step = 0.5;
+                convertInputContainer.appendChild(portionInput);
+    
+                const convertButton = document.createElement("button");
+                convertButton.textContent = "Convert";
+                convertButton.addEventListener("click", () => {
+                    applyConvert(recipeIngredientsList, portionInput.value);
+                });
+                convertInputContainer.appendChild(convertButton);
+
+                const resetCovertButton = document.createElement("button");
+                resetCovertButton.textContent = "Reset";
+                resetCovertButton.addEventListener("click", () => {
+                    portionInput.value = 1;
+                    applyConvert(recipeIngredientsList, 1);
+                });
+                convertInputContainer.appendChild(resetCovertButton);
+
+                convertContainer.appendChild(convertInputContainer);
+
+                recipeContainer.appendChild(convertContainer);
             }
     
             recipeItemElement.appendChild(recipeContainer);
@@ -286,11 +328,12 @@ const setTimerButton = document.getElementById("start-timer");
 setTimerButton.addEventListener('click', setTimer);
 const timerDisplay = document.getElementById("timer-display");
 
-let timerInterval
+let timerInterval;
 
 function setTimer() {
     const timerInput = parseInt(document.getElementById('timer-input').value);
-    if (timerInput <= 0 || isNaN(timerInput)) {
+
+    if (timerInput <= 0 || isNaN(timerInput) || !timerInput) {
         alert("Please enter a valid Timer.");
         return;
     }
@@ -373,17 +416,85 @@ function showRecipe(recipe){
     for(let ingredient of recipe.ingredients) {
         const ingredientItem = document.createElement("li");
         ingredientItem.textContent = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
+        ingredientItem.dataset.baseAmount = ingredient.amount;
         recipeIngredientsList.appendChild(ingredientItem);
     }
     recipeContainer.appendChild(recipeIngredientsList);
 
-    const recipeDescription = document.createElement("p");
-    recipeDescription.textContent = recipe.description;
+    const recipeDescription = document.createElement("ol");
+    const descriptionList = recipe.description.split(".");
+    for(let descriptionLine of descriptionList) {
+        const descriptionStringLine = document.createElement("li");
+        descriptionStringLine.textContent = descriptionLine.trim();
+        recipeDescription.appendChild(descriptionStringLine)
+    }
     recipeContainer.appendChild(recipeDescription);
+
+    const convertContainer = document.createElement("div");
+    convertContainer.classList.add("convert-container");
+
+    const convertLabel = document.createElement("label");
+    convertLabel.textContent = "Convert portion by: ";
+    convertLabel.setAttribute("for", `convert-${recipe.title}`);
+    convertContainer.appendChild(convertLabel);
+
+    const convertInputContainer = document.createElement("div");
+    convertInputContainer.classList.add("convert-input-container");
+
+    const portionInput = document.createElement("input");
+    portionInput.type = "number";
+    portionInput.id = `convert-${recipe.title}`;
+    portionInput.value = 1;
+    portionInput.step = 0.5;
+    convertInputContainer.appendChild(portionInput);
+    
+    const convertButton = document.createElement("button");
+    convertButton.textContent = "Convert";
+    convertButton.addEventListener("click", () => {
+        applyConvert(recipeIngredientsList, portionInput.value);
+    });
+    convertInputContainer.appendChild(convertButton);
+
+    const resetCovertButton = document.createElement("button");
+    resetCovertButton.textContent = "Reset";
+    resetCovertButton.addEventListener("click", () => {
+        portionInput.value = 1;
+        applyConvert(recipeIngredientsList, 1);
+    });
+    convertInputContainer.appendChild(resetCovertButton);
+
+    convertContainer.appendChild(convertInputContainer);
+
+    recipeContainer.appendChild(convertContainer);
 
     
     recipeItemElement.appendChild(recipeContainer)
 }
+
+
+function applyConvert(ingredientsList, portion) {
+    const portionValue = parseFloat(portion);
+    if (isNaN(portionValue) || portionValue <= 0) {
+        alert("Please enter a valid portion greater than 0.");
+        return;
+    }
+
+    const ingredientItems = ingredientsList.querySelectorAll("li");
+    for (let item of ingredientItems) {
+        const baseAmount = parseFloat(item.dataset.baseAmount);
+        const newAmount = (baseAmount * portionValue).toFixed(2);
+
+        const [ingredientName, rest] = item.textContent.split(":");
+        const amountAndUnit = rest.trim().split(" ");
+
+
+        const amount = amountAndUnit[0];
+        const displayUnit = amountAndUnit.length > 1 ? amountAndUnit.slice(1).join(" ") : "";
+
+        item.textContent = `${ingredientName}: ${newAmount} ${displayUnit}`;
+    }
+}
+
 
 showAllRecipes();
 

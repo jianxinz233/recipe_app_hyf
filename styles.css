@@ -251,12 +251,41 @@ button:hover {
     margin: 5px 0;
 }
 
-.recipe-item p {
+.recipe-item ol {
     font-size: 0.9em;
     line-height: 1.5;
     color: #7f8c8d;
+    text-align: center;
 }
 
+.convert-input-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.convert-input-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.convert-input-container > :nth-child(1) {
+    flex: 2;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.convert-input-container > :nth-child(2) {
+    flex: 1;
+}
+
+.convert-input-container > :nth-child(3) {
+    flex: 1;
+}
 
 .timer-container {
     width: 90%;
