@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: sans-serif;
     background: linear-gradient(135deg, #f8f8f8, #e0e0e0);
     margin: 0;
     padding: 0;
@@ -99,6 +99,44 @@ form {
 form:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.shopping-list-container {
+    width: 90%;
+    min-width: 280px;
+    margin: 20px auto;
+    padding: 5px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.list-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+#dropdownButton {
+    margin: auto;
+}
+
+.shopping-list {
+    display: none;
+    margin-top: 10px;
+    padding: 0;
+    list-style: none;
+}
+
+.shopping-list li {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
 label {
@@ -255,7 +293,8 @@ button:hover {
     font-size: 0.9em;
     line-height: 1.5;
     color: #7f8c8d;
-    text-align: center;
+    text-align: justify;
+    padding: 0 20px
 }
 
 .convert-input-container {
@@ -285,6 +324,11 @@ button:hover {
 
 .convert-input-container > :nth-child(3) {
     flex: 1;
+}
+
+.add-shopping-list {
+    width: 100%;
+    padding: 10px;
 }
 
 .timer-container {
@@ -391,5 +435,14 @@ button:hover {
         flex-direction: column;
         align-items: center;
         gap: 10px;
+    }
+
+    .list-title {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .shopping-list li {
+        width: 85%;
     }
 }
