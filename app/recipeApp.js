@@ -26,6 +26,7 @@ function showAllRecipes(){
     });
 };
 
+// Today's recommendation (random)
 function showRandomRecipe() {
     if (recipes.length === 0) {
         console.error('No recipes available');
@@ -114,6 +115,7 @@ function addRecipe(event){
     
 };
 
+// reset the form and keep 5 default ingredients input row
 function resetForm() {
     document.getElementById("recipe-form").reset();
 
@@ -148,6 +150,7 @@ function resetForm() {
     }
 }
 
+//  add one more row for ingredient
 function addMoreIngredient(event){
     event.preventDefault();
 
@@ -325,6 +328,7 @@ const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', searchRecipes);
 
 
+// sort recipes with a toggle button
 let sortDescending = true;
 
 function sortRecipesByIngredients() {
@@ -342,6 +346,8 @@ function sortRecipesByIngredients() {
 const sortRecipesButton = document.getElementById('sort-recipes');
 sortRecipesButton.addEventListener('click', sortRecipesByIngredients);
 
+
+// Timer Function
 const setTimerButton = document.getElementById("start-timer");
 setTimerButton.addEventListener('click', setTimer);
 const timerDisplay = document.getElementById("timer-display");
@@ -410,7 +416,7 @@ window.onload = function () {
     setInterval(updateTimer, 1000);
 };
 
-
+// show one recipe item and plus convert and add shopping list buttons
 function showRecipe(recipe){
     const recipeItemElement = document.getElementById('saved-recipes');
 
@@ -503,7 +509,7 @@ function showRecipe(recipe){
     recipeItemElement.appendChild(recipeContainer)
 }
 
-
+// convert portion depends on the base value save in show recipe
 function applyConvert(ingredientsList, portion) {
     const portionValue = parseFloat(portion);
     if (isNaN(portionValue) || portionValue <= 0) {
@@ -526,6 +532,8 @@ function applyConvert(ingredientsList, portion) {
     }
 }
 
+
+// add the ingredients with applied portion to shopping list
 let shoppingList = [];
 
 function addToShoppingList(ingredientsList) {
@@ -534,10 +542,10 @@ function addToShoppingList(ingredientsList) {
         const [ingredientName, rest] = item.textContent.split(":");
         const amountAndUnit = rest.trim().split(" ");
         const amount = parseFloat(amountAndUnit[0]).toFixed(2);
-        const unit = amountAndUnit.length > 1 ? amountAndUnit.slice(1,2).join(" ") : ""; 
+        const unit = amountAndUnit.length > 1 ? amountAndUnit.slice(1).join(" ") : ""; 
 
         const existingItem = shoppingList.find(
-            ingredient => ingredient.name === ingredientName.trim() && ingredient.unit === unit
+            ingredient.name.toLowerCase() === ingredientName.trim().toLowerCase() && ingredient.unit === unit
         );
 
         if (existingItem) {
@@ -582,7 +590,6 @@ function showShoppingList() {
     });
 
     shoppingListContainer.appendChild(clearShoppingListButton);
-
 }};
 
 // Toggle button for shopping list
