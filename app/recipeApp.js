@@ -545,7 +545,8 @@ function addToShoppingList(ingredientsList) {
         const unit = amountAndUnit.length > 1 ? amountAndUnit.slice(1).join(" ") : ""; 
 
         const existingItem = shoppingList.find(
-            ingredient.name.toLowerCase() === ingredientName.trim().toLowerCase() && ingredient.unit === unit
+            ingredient => ingredient.name.toLowerCase() === ingredientName.trim().toLowerCase() &&
+            ingredient.unit === unit
         );
 
         if (existingItem) {
@@ -590,6 +591,7 @@ function showShoppingList() {
     });
 
     shoppingListContainer.appendChild(clearShoppingListButton);
+
 }};
 
 // Toggle button for shopping list
