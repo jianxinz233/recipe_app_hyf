@@ -4,6 +4,10 @@
 
 > 💡 I'm currently learning Node.js and React. This project marks the end of my JavaScript phase. I plan to rebuild Cooking Note using React after finishing my full-stack courses.
 
+## 🌐 Live Demo
+
+🔗 [View the deployed website here](https://cookingnote.netlify.app/)
+
 ## 🚀 Features
 
 - 📝 **Add New Recipes**: Input title, image, ingredients, and instructions.
@@ -14,6 +18,22 @@
 - ⏱️ **Cooking Timer**: Start a countdown timer for your dishes.
 - 🎨 **Smooth Transitions & Responsive Design**: Clean, animated UI with a Nordic-inspired color scheme.
 
+## 🛠️ Tech Stack
+
+- **HTML5 + CSS3**: Semantic structure and responsive styling
+- **JavaScript**: DOM handling, form validation, logic for features
+
+## 📁 Folder Structure
+
+```bash
+.project-root/
+├── index.html # Main HTML file
+├── styles.css # Styling and layout
+├── recipeApp.js # Core JavaScript logic
+├── assets/ # Images
+└── README.md # Project documentation
+```
+
 ## 📸 Screenshots
 
 You can view some key features in action:
@@ -23,19 +43,6 @@ You can view some key features in action:
     <img src="app/assets/ssmobile.png" alt="mobileview" height="200" />
     <img src="app/assets/shoppinglist.png" alt="shoppinglist" height="200" />
 </div>
-
-## 🌐 Live Demo
-
-🔗 [View the deployed website here](https://cookingnote.netlify.app/)
-
-## 🛠️ Tech Stack
-
-- **HTML5 + CSS3**: Semantic structure and responsive styling
-- **JavaScript**: DOM handling, form validation, logic for features
-
-## 📁 Folder Structure
-
-`project-root/ ├── index.html # Main HTML file ├── styles.css # Styling and layout ├── recipeApp.js # Core JavaScript logic ├── assets/ # Images/screenshots │ ├── screenshot1.png │ └── screenshot2.png └── README.md # Project documentation`
 
 ## 📚 Learning Reflections
 
@@ -56,7 +63,7 @@ As my first JavaScript project, I learned how to:
 
 ## 🧑‍💻 Author
 
-Made with 💛 by Jianxin  
+Made with 💛 by Jianxin
 Currently learning **Node.js**, **React**, and **full-stack web development**.
 
 ---
