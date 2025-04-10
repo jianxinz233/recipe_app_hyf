@@ -64,6 +64,7 @@ As my first JavaScript project, I learned how to:
 ## 🧑‍💻 Author
 
 Made with 💛 by Jianxin
+
 Currently learning **Node.js**, **React**, and **full-stack web development**.
 
 ---
