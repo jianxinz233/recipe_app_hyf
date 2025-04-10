@@ -39,7 +39,7 @@
 You can view some key features in action:
 
 <div style="display: flex; gap: 10px;">
-    <img src="app/assets/sswebsite.png" alt="website" width="300" />
+    <img src="app/assets/sswebsite.png" alt="website" height="200" />
     <img src="app/assets/ssmobile.png" alt="mobileview" height="200" />
     <img src="app/assets/shoppinglist.png" alt="shoppinglist" height="200" />
 </div>
