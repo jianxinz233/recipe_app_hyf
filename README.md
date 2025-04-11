@@ -61,7 +61,7 @@ As my first JavaScript project, I learned how to:
 - LocalStorage integration
 - A complete **React version** after finishing React/Node.js courses
 
-## 🧑‍💻 Author
+## 👩🏻‍💻 Author
 
 Made with 💛 by Jianxin
 
