@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: sans-serif;
     background: linear-gradient(135deg, #f8f8f8, #e0e0e0);
     margin: 0;
     padding: 0;
@@ -7,14 +7,32 @@ body {
 }
 
 .main-bar {
-    display: flex;
-    justify-content: space-between;
-    margin: auto 50px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    width: 100%
 }
 
 h1, h2, p {
     text-align: center;
     color: #2c3e50;
+}
+
+
+#header-title {
+    display: none;
+}
+
+#logo-full {
+    display: block; 
+    width: 100%;
+    min-width: 800px;
+    height: auto;
+    object-fit: cover;
+}
+
+#logo-small {
+    display: none;
 }
 
 .header-line {
@@ -48,7 +66,7 @@ h1, h2, p {
     max-width: 320px;
     margin: auto;
     padding: 15px;
-    background: #e6e0ff;
+    background: #d6ddce;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -61,19 +79,19 @@ h1, h2, p {
 .recommendation-container:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    background: #d8d0f0;
+    background: #b3c1a1;
 }
 
 .recommendation-container h3 {
     font-size: 1.5rem;
-    color: #5e3da6;
+    color: #2e5b3c;
     margin: auto;
 }
 
 .recommendation-container #recommendation-title {
     font-size: 1rem;
     font-weight: bold;
-    color: #463a73;
+    color: #1b3a24;
 }
 
 .recommendation-container #recommendation-image {
@@ -99,6 +117,46 @@ form {
 form:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.shopping-list-container {
+    width: 90%;
+    min-width: 280px;
+    margin: 20px auto;
+    padding: 5px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.list-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+#dropdownButton {
+        margin: auto;
+        margin-right: 5px;
+}
+
+.shopping-list {
+    display: none;
+    margin-top: 10px;
+    padding: 0;
+    list-style: none;
+}
+
+.shopping-list li {
+    width: 85%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    margin: 5px auto;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
 label {
@@ -251,12 +309,47 @@ button:hover {
     margin: 5px 0;
 }
 
-.recipe-item p {
+.recipe-item ol {
     font-size: 0.9em;
     line-height: 1.5;
     color: #7f8c8d;
+    text-align: justify;
+    padding: 0 20px
 }
 
+.convert-input-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.convert-input-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.convert-input-container > :nth-child(1) {
+    flex: 2;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.convert-input-container > :nth-child(2) {
+    flex: 1;
+}
+
+.convert-input-container > :nth-child(3) {
+    flex: 1;
+}
+
+.add-shopping-list {
+    width: 100%;
+    padding: 10px;
+}
 
 .timer-container {
     width: 90%;
@@ -363,4 +456,26 @@ button:hover {
         align-items: center;
         gap: 10px;
     }
+
+    .list-title {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .main-bar {
+        width: 100%;
+    }
+
+    #logo-full {
+        display: none; 
+    }
+    
+    #logo-small {
+        display: block; 
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+    
+
+
 }

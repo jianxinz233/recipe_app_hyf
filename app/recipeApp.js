@@ -1,5 +1,6 @@
 let recipes =[];
 
+// API Fetch
 async function getData() {
     try{
         const response = await fetch(
@@ -25,6 +26,7 @@ function showAllRecipes(){
     });
 };
 
+// Today's recommendation (random)
 function showRandomRecipe() {
     if (recipes.length === 0) {
         console.error('No recipes available');
@@ -113,6 +115,7 @@ function addRecipe(event){
     
 };
 
+// reset the form and keep 5 default ingredients input row
 function resetForm() {
     document.getElementById("recipe-form").reset();
 
@@ -147,6 +150,7 @@ function resetForm() {
     }
 }
 
+//  add one more row for ingredient
 function addMoreIngredient(event){
     event.preventDefault();
 
@@ -240,20 +244,78 @@ function searchRecipes() {
                 recipeContainer.appendChild(matchingIngredientsList);
             } else {
                 const allIngredientsHeader = document.createElement("h4")
-                allIngredientsHeader.textContent = "All Ingredients:";
+                allIngredientsHeader.textContent = "Ingredients:";
                 recipeContainer.appendChild(allIngredientsHeader);
 
                 const recipeIngredientsList = document.createElement("ul");
                     recipe.ingredients.forEach (ingredient => {
                         const allIngredients = document.createElement("li");
-                        allIngredients.textContent = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit} - ${ingredient.price} kr.`;
+                        allIngredients.textContent = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
+                        allIngredients.dataset.baseAmount = ingredient.amount;
                         recipeIngredientsList.appendChild(allIngredients);
                     });
                 recipeContainer.appendChild(recipeIngredientsList);
-
-                const recipeDescription = document.createElement("p");
-                recipeDescription.textContent = recipe.description;
+                
+                const recipeDescription = document.createElement("ol");
+                const descriptionList = recipe.description.split(".");
+                for(let descriptionLine of descriptionList) {
+                    const descriptionStringLine = document.createElement("li");
+                    descriptionStringLine.textContent = descriptionLine.trim();
+                    recipeDescription.appendChild(descriptionStringLine)
+                }
                 recipeContainer.appendChild(recipeDescription);
+
+                const convertContainer = document.createElement("div");
+                convertContainer.classList.add("convert-container");
+
+                const convertLabel = document.createElement("label");
+                convertLabel.textContent = "Convert portion by: ";
+                convertLabel.setAttribute("for", `convert-${recipe.title}`);
+                convertContainer.appendChild(convertLabel);
+
+                const convertInputContainer = document.createElement("div");
+                convertInputContainer.classList.add("convert-input-container");
+
+                const portionInput = document.createElement("input");
+                portionInput.type = "number";
+                portionInput.id = `convert-${recipe.title}`;
+                portionInput.value = 1;
+                portionInput.step = 0.5;
+                convertInputContainer.appendChild(portionInput);
+    
+                const convertButton = document.createElement("button");
+                convertButton.textContent = "Convert";
+                convertButton.addEventListener("click", () => {
+                    applyConvert(recipeIngredientsList, portionInput.value);
+                });
+                convertInputContainer.appendChild(convertButton);
+
+                const resetCovertButton = document.createElement("button");
+                resetCovertButton.textContent = "Reset";
+                resetCovertButton.addEventListener("click", () => {
+                    portionInput.value = 1;
+                    applyConvert(recipeIngredientsList, 1);
+                });
+                convertInputContainer.appendChild(resetCovertButton);
+
+                convertContainer.appendChild(convertInputContainer);
+
+                recipeContainer.appendChild(convertContainer);
+
+                const addToShoppingListButton = document.createElement("button");
+                addToShoppingListButton.classList.add("add-shopping-list");
+                addToShoppingListButton.textContent = "Add to Shopping List";
+                addToShoppingListButton.addEventListener("click", () => {
+                    addToShoppingList(recipeIngredientsList);
+                    showShoppingList();
+
+                    const showList = document.getElementById("shoppingList");
+                    const showButton = document.getElementById("dropdownButton");
+                    showList.style.display = "block";
+                    showButton.textContent = "Hide";
+                });
+                
+                recipeContainer.appendChild(addToShoppingListButton);
             }
     
             recipeItemElement.appendChild(recipeContainer);
@@ -261,10 +323,12 @@ function searchRecipes() {
     }
 }
 
+
 const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', searchRecipes);
 
 
+// sort recipes with a toggle button
 let sortDescending = true;
 
 function sortRecipesByIngredients() {
@@ -282,15 +346,18 @@ function sortRecipesByIngredients() {
 const sortRecipesButton = document.getElementById('sort-recipes');
 sortRecipesButton.addEventListener('click', sortRecipesByIngredients);
 
+
+// Timer Function
 const setTimerButton = document.getElementById("start-timer");
 setTimerButton.addEventListener('click', setTimer);
 const timerDisplay = document.getElementById("timer-display");
 
-let timerInterval
+let timerInterval;
 
 function setTimer() {
     const timerInput = parseInt(document.getElementById('timer-input').value);
-    if (timerInput <= 0 || isNaN(timerInput)) {
+
+    if (timerInput <= 0 || isNaN(timerInput) || !timerInput) {
         alert("Please enter a valid Timer.");
         return;
     }
@@ -349,7 +416,7 @@ window.onload = function () {
     setInterval(updateTimer, 1000);
 };
 
-
+// show one recipe item and plus convert and add shopping list buttons
 function showRecipe(recipe){
     const recipeItemElement = document.getElementById('saved-recipes');
 
@@ -373,18 +440,172 @@ function showRecipe(recipe){
     for(let ingredient of recipe.ingredients) {
         const ingredientItem = document.createElement("li");
         ingredientItem.textContent = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
+        ingredientItem.dataset.baseAmount = ingredient.amount;
         recipeIngredientsList.appendChild(ingredientItem);
     }
     recipeContainer.appendChild(recipeIngredientsList);
 
-    const recipeDescription = document.createElement("p");
-    recipeDescription.textContent = recipe.description;
+    const recipeDescription = document.createElement("ol");
+    const descriptionList = recipe.description.split(".");
+    for(let descriptionLine of descriptionList) {
+        const descriptionStringLine = document.createElement("li");
+        descriptionStringLine.textContent = descriptionLine.trim();
+        recipeDescription.appendChild(descriptionStringLine)
+    }
     recipeContainer.appendChild(recipeDescription);
 
+    const convertContainer = document.createElement("div");
+    convertContainer.classList.add("convert-container");
+
+    const convertLabel = document.createElement("label");
+    convertLabel.textContent = "Convert portion by: ";
+    convertLabel.setAttribute("for", `convert-${recipe.title}`);
+    convertContainer.appendChild(convertLabel);
+
+    const convertInputContainer = document.createElement("div");
+    convertInputContainer.classList.add("convert-input-container");
+
+    const portionInput = document.createElement("input");
+    portionInput.type = "number";
+    portionInput.id = `convert-${recipe.title}`;
+    portionInput.value = 1;
+    portionInput.step = 0.5;
+    convertInputContainer.appendChild(portionInput);
     
+    const convertButton = document.createElement("button");
+    convertButton.textContent = "Convert";
+    convertButton.addEventListener("click", () => {
+        applyConvert(recipeIngredientsList, portionInput.value);
+    });
+    convertInputContainer.appendChild(convertButton);
+
+    const resetCovertButton = document.createElement("button");
+    resetCovertButton.textContent = "Reset";
+    resetCovertButton.addEventListener("click", () => {
+        portionInput.value = 1;
+        applyConvert(recipeIngredientsList, 1);
+    });
+    convertInputContainer.appendChild(resetCovertButton);
+
+    convertContainer.appendChild(convertInputContainer);
+
+    recipeContainer.appendChild(convertContainer);
+
+    const addToShoppingListButton = document.createElement("button");
+    addToShoppingListButton.classList.add("add-shopping-list");
+    addToShoppingListButton.textContent = "Add to Shopping List";
+    addToShoppingListButton.addEventListener("click", () => {
+        addToShoppingList(recipeIngredientsList);
+        showShoppingList();
+
+        const showList = document.getElementById("shoppingList");
+        const showButton = document.getElementById("dropdownButton");
+        showList.style.display = "block";
+        showButton.textContent = "Hide";
+    });
+
+    recipeContainer.appendChild(addToShoppingListButton);
+
     recipeItemElement.appendChild(recipeContainer)
 }
 
-showAllRecipes();
+// convert portion depends on the base value save in show recipe
+function applyConvert(ingredientsList, portion) {
+    const portionValue = parseFloat(portion);
+    if (isNaN(portionValue) || portionValue <= 0) {
+        alert("Please enter a valid portion greater than 0.");
+        return;
+    }
+
+    const ingredientItems = ingredientsList.querySelectorAll("li");
+    for (let item of ingredientItems) {
+        const baseAmount = parseFloat(item.dataset.baseAmount);
+        const newAmount = (baseAmount * portionValue).toFixed(2);
+
+        const [ingredientName, rest] = item.textContent.split(":");
+        const amountAndUnit = rest.trim().split(" ");
+
+        const amount = amountAndUnit[0];
+        const displayUnit = amountAndUnit.length > 1 ? amountAndUnit.slice(1).join(" ") : "";
+
+        item.textContent = `${ingredientName}: ${newAmount} ${displayUnit}`;
+    }
+}
+
+
+// add the ingredients with applied portion to shopping list
+let shoppingList = [];
+
+function addToShoppingList(ingredientsList) {
+    const ingredientItems = ingredientsList.querySelectorAll("li");
+    for (let item of ingredientItems) {
+        const [ingredientName, rest] = item.textContent.split(":");
+        const amountAndUnit = rest.trim().split(" ");
+        const amount = parseFloat(amountAndUnit[0]).toFixed(2);
+        const unit = amountAndUnit.length > 1 ? amountAndUnit.slice(1).join(" ") : ""; 
+
+        const existingItem = shoppingList.find(
+            ingredient => ingredient.name.toLowerCase() === ingredientName.trim().toLowerCase() &&
+            ingredient.unit === unit
+        );
+
+        if (existingItem) {
+            existingItem.amount = parseFloat(existingItem.amount) + parseFloat(amount);
+        } else {
+            shoppingList.push({
+                name: ingredientName.trim(),
+                amount: amount,
+                unit: unit
+            });
+        }
+    }
+
+    alert("Ingredients added to your shopping list!");
+}
+
+function showShoppingList() {
+    const shoppingListContainer = document.getElementById('shoppingList');
+
+    shoppingListContainer.innerHTML = "";
+
+    if (shoppingList.length === 0) {        
+        const emptyListElement = document.createElement('div');
+        emptyListElement.textContent = "Shopping list is empty.";
+        shoppingListContainer.appendChild(emptyListElement);
+    } else {
+        const list = document.createElement("ul");
+        for(let item of shoppingList) {
+        const shoppingItem = document.createElement("li");
+        shoppingItem.textContent = `${item.name}: ${item.amount} ${item.unit}`
+        list.appendChild(shoppingItem);
+    }
+    shoppingListContainer.appendChild(list);
+
+    // a clear button, when clicked make the list array empty
+    const clearShoppingListButton = document.createElement("button");
+    clearShoppingListButton.classList.add("clear-list-button");
+    clearShoppingListButton.textContent = "Clear Shopping List";
+    clearShoppingListButton.addEventListener("click", () => {
+        shoppingList = [];
+        shoppingListContainer.innerHTML = "";
+    });
+
+    shoppingListContainer.appendChild(clearShoppingListButton);
+
+}};
+
+// Toggle button for shopping list
+const showShoppingListButton = document.getElementById("dropdownButton").addEventListener("click", () => {
+    const showList = document.getElementById("shoppingList");
+    const showButton = document.getElementById("dropdownButton");
+    
+    if (showList.style.display === "none" || showList.style.display === "") {
+        showList.style.display = "block";
+        showButton.textContent = "Hide";
+    } else {
+        showList.style.display = "none";
+        showButton.textContent = "Show";
+    }
+});
 
 
