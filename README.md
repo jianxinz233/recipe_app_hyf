@@ -2,7 +2,17 @@
 
 **Cooking Note** is a recipe management web app built to help users organize, discover, and interact with their favorite recipes. This was my **first JavaScript project**, where I explored dynamic DOM manipulation, form handling, interactivity, and simple animations to create a modern and user-friendly experience.
 
-> 💡 I'm currently learning Node.js and React. This project marks the end of my JavaScript phase. I plan to rebuild Cooking Note using React after finishing my full-stack courses.
+> 💡 I'm currently having my full-stack courses. This project marks the end of my JavaScript phase.
+
+## 📸 Screenshots
+
+You can view some key features in action:
+
+<div style="display: flex; gap: 10px;">
+    <img src="app/assets/sswebsite.png" alt="website" height="200" />
+    <img src="app/assets/ssmobile.png" alt="mobileview" height="200" />
+    <img src="app/assets/shoppinglist.png" alt="shoppinglist" height="200" />
+</div>
 
 ## 🌐 Live Demo
 
@@ -34,16 +44,6 @@
 └── README.md # Project documentation
 ```
 
-## 📸 Screenshots
-
-You can view some key features in action:
-
-<div style="display: flex; gap: 10px;">
-    <img src="app/assets/sswebsite.png" alt="website" height="200" />
-    <img src="app/assets/ssmobile.png" alt="mobileview" height="200" />
-    <img src="app/assets/shoppinglist.png" alt="shoppinglist" height="200" />
-</div>
-
 ## 📚 Learning Reflections
 
 As my first JavaScript project, I learned how to:
@@ -65,6 +65,6 @@ As my first JavaScript project, I learned how to:
 
 Made with 💛 by Jianxin
 
-Currently learning **Node.js**, **React**, and **full-stack web development**.
+Currently enrolled in **HackYourFuture Full-stack Web Development Program**.
 
 ---
